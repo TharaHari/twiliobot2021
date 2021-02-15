@@ -2,15 +2,14 @@
   "name": "es6test",
   "version": "1.0.0",
   "description": "This is a chance to test es6 with node 9.3",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "node index.js"
+    "start": "node app.js",
+    "dev": "node app.js"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rhildred/es6test.git"
+    "type": "git"
   },
   "keywords": [
     "node",
@@ -18,18 +17,11 @@
     "problem",
     "solving"
   ],
-  "author": "Rich Hildred",
+  "author": "Thara Harikumar",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/rhildred/es6test/issues"
-  },
-  "homepage": "https://github.com/rhildred/es6test#readme",
   "dependencies": {
-    "engine.io": "*",
     "express": "*",
-    "socket.io": "*",
-    "twilio": "*",
-    "underscore": "*"
+    "localstorage": "^1.0.1"
   },
   "babel": {
     "presets": [
