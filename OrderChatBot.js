@@ -23,6 +23,7 @@ module.exports = class MamasOrder extends Order {
         this.sBread = "";
         this.sToppings = "";
         this.sCombo = "";
+        this.sDeliveryAddress = "";
         this.sandwichRt = 3.99;
         this.burgerRt = 3;
     }
@@ -127,19 +128,26 @@ module.exports = class MamasOrder extends Order {
                 this.sCombo = sInput;
                 aReturn.push(`Thank-you for your order of ${this.sSize} ${this.sItem} with ${this.sBread} bread. Your choice for toppings are: ${this.sToppings}`);
                 if (this.sCombo.toLowerCase() == "yes") {
-                    aReturn.push(`Added combo to to your meal as per your request.`);
+                    aReturn.push(`Added combo to your meal as per your request.`);
                 }
-                aReturn.push(`Subtotal: CA$${this.nOrder}`);
-                aReturn.push(`Taxes: CA$${(this.nOrder * 0.13).toFixed(2)}`); // tax
+                aReturn.push(`Subtotal: $${this.nOrder}`);
+                aReturn.push(`Taxes: $${(this.nOrder * 0.13).toFixed(2)}`); // tax
                 this.nOrder = (this.nOrder + (this.nOrder * 0.13)).toFixed(2); // total amount after tax
                 aReturn.push(`Total: $${this.nOrder}`);
                 aReturn.push(`Please pay for your order here: ${this.sUrl}/payment/${this.sNumber}/`);
                 break;
             case OrderState.PAYMENT:
+                this.sDeliveryAddress = sInput.purchase_units[0].shipping.address;
                 this.isDone(true);
                 let d = new Date();
                 d.setMinutes(d.getMinutes() + 20);
-                aReturn.push(`Your order will be delivered at ${d.toTimeString()}`);
+                aReturn.push(`Your order will be delivered at ${d.toTimeString()} and sent to the following delivery address: 
+                ${this.sDeliveryAddress.address_line_1},
+                ${this.sDeliveryAddress.address_line_2},
+                ${this.sDeliveryAddress.admin_area_2},
+                ${this.sDeliveryAddress.admin_area_1},
+                ${this.sDeliveryAddress.postal_code},
+                ${this.sDeliveryAddress.country_code}.`);
                 break;
         }
         return aReturn;
@@ -163,8 +171,8 @@ module.exports = class MamasOrder extends Order {
           src="https://www.paypal.com/sdk/js?client-id=${sClientID}"> // Required. Replace SB_CLIENT_ID with your sandbox client ID.
         </script>
         <div class="center">
-        <p>Thank you for your order of $${this.nOrder}.</p>
-        <p>Your order id is <b> ${this.sNumber} </b>. Please show this number to the restaurant to collect your food.</p>
+        <p>Thank you for your order of <b>$${this.nOrder}</b>.</p>
+        <p>Your order id is <b> ${this.sNumber} </b>. Please save this number for your future reference if needed.</p>
         <div id="paypal-button-container"></div>
         </div>
         <script>
